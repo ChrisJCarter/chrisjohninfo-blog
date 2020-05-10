@@ -36,7 +36,43 @@ namespace ChrisJohnInfo.Blog.IntegrationTests.Repositories.EntityFramework
         }
 
         [Test]
-        public async Task CanCreate()
+        public async Task PostCrud()
+        {
+            var context = CreateContext();
+            var repo = CreateRepository();
+
+            // create the author
+            var author = await repo.CreateAuthorAsync(new Author {FirstName = "Jack", LastName = "Wagon", NickName = "JagOff"});
+
+            // create a post
+            var post = await repo.CreatePostAsync(new Post
+            {
+                AuthorId = author.AuthorId,
+                Title = "Test post",
+                Content = "Jack Wagon's are beautiful ",
+                DatePublished = new DateTime(1970, 6, 18)
+            });
+            Assert.That(post.PostId, Is.Not.EqualTo(Guid.Empty));
+
+            // update a post
+            post.Content = "You are blah";
+            await repo.UpdatePostAsync(post);
+            var updated = await repo.GetPostAsync(post.PostId);
+            Assert.That(updated.Content, Is.EqualTo("You are blah"));
+
+            // delete it!
+            await repo.DeletePostAsync(updated.PostId);
+
+            // make sure it's gone
+            var deletedPost = await repo.GetPostAsync(updated.PostId);
+            Assert.That(deletedPost, Is.Null);
+
+            // remove the author
+            await repo.DeleteAuthorAsync(author.AuthorId);
+        }
+
+        [Test]
+        public async Task AuthorCrud()
         {
             var context = CreateContext();
             var repo = CreateRepository();
@@ -53,20 +89,20 @@ namespace ChrisJohnInfo.Blog.IntegrationTests.Repositories.EntityFramework
             newAuthor.FirstName = "Penelope";
             newAuthor.LastName = "Carter";
             newAuthor.NickName = "Penelopenis";
-            var created = await repo.CreateAsync(newAuthor);
-            Assert.That(created.AuthorId, Is.GreaterThan(1));
+            var created = await repo.CreateAuthorAsync(newAuthor);
+            Assert.That(created.AuthorId, Is.GreaterThan(0));
 
             // Fix her last name!
             var goingToUpdate = await repo.GetAuthorAsync(created.AuthorId);
             goingToUpdate.LastName = "Thyne";
-            await repo.UpdateAuthor(goingToUpdate);
+            await repo.UpdateAuthorAsync(goingToUpdate);
 
             // Did she update?
             var updated = await repo.GetAuthorAsync(goingToUpdate.AuthorId);
             Assert.That(updated.LastName, Is.EqualTo("Thyne"));
 
             // Let's get rid of her
-            await repo.DeleteAuthor(updated.AuthorId);
+            await repo.DeleteAuthorAsync(updated.AuthorId);
 
             // Is she gone?
             existing = await (from a in context.Authors

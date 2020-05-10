@@ -55,7 +55,7 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
             return result;
         }
 
-        public async Task<Author> CreateAsync(Author author)
+        public async Task<Author> CreateAuthorAsync(Author author)
         {
             var entity = new Entitites.Author();
             entity.FirstName = author.FirstName;
@@ -67,7 +67,7 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
             return author;
         }
 
-        public async Task UpdateAuthor(Author author)
+        public async Task UpdateAuthorAsync(Author author)
         {
             var entity = await _context.Authors.FirstOrDefaultAsync(x => x.AuthorId == author.AuthorId);
             if (entity == null)
@@ -80,10 +80,89 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAuthor(int authorId)
+        public async Task DeleteAuthorAsync(int authorId)
         {
             var entity = await _context.Authors.FindAsync(authorId); 
             _context.Authors.Remove(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Post> GetPostAsync(Guid postId)
+        {
+            var entity = await _context.Posts.FindAsync(postId);
+            if (entity == null)
+            {
+                return null;
+            }
+
+            var model = new Post
+            {
+                AuthorId = entity.AuthorId,
+                Content = entity.Content,
+                DatePublished = entity.DatePublished,
+                Title = entity.Title,
+                PostId = entity.PostId
+            };
+            return model;
+        }
+
+        public async Task<IEnumerable<Post>> GetPostsAsync()
+        {
+            var entities = await _context.Posts.ToListAsync();
+            
+            if (entities == null)
+            {
+                return new List<Post>();
+            }
+
+            return entities.Select(entity => new Post
+            {
+                AuthorId = entity.AuthorId,
+                Content = entity.Content,
+                DatePublished = entity.DatePublished,
+                Title = entity.Title,
+                PostId = entity.PostId
+            });
+        }
+
+        public async Task<Post> CreatePostAsync(Post post)
+        {
+            var entity = await _context.Posts.FindAsync(post.PostId);
+            if (entity != null)
+            {
+                throw new InvalidOperationException($"Entity {post.PostId} already exists!");
+            }
+
+            entity = new Entitites.Post();
+            entity.AuthorId = post.AuthorId;
+            entity.Content = post.Content;
+            entity.Title = post.Title;
+            entity.DatePublished = post.DatePublished;
+            entity.PostId = Guid.NewGuid();
+            await _context.Posts.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            post.PostId = entity.PostId;
+            return post;
+        }
+
+        public async Task UpdatePostAsync(Post post)
+        {
+            var entity = await _context.Posts.FindAsync(post.PostId);
+            if (entity == null)
+            {
+                throw new InvalidOperationException($"Entity {post.PostId} not found!");
+            }
+
+            entity.AuthorId = post.AuthorId;
+            entity.Content = post.Content;
+            entity.Title = post.Title;
+            entity.DatePublished = post.DatePublished;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeletePostAsync(Guid postId)
+        {
+            _context.Posts.Remove(await _context.Posts.FindAsync(postId));
             await _context.SaveChangesAsync();
         }
     }
