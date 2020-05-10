@@ -1,5 +1,11 @@
+using System;
+using ChrisJohnInfo.Blog.Contracts.Interfaces;
+using ChrisJohnInfo.Blog.Core.Services;
+using ChrisJohnInfo.Blog.Repositories.EntityFramework;
+using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +25,9 @@ namespace ChrisJohnInfo.Blog.MvcUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddScoped<IBlogService, BlogService>();
+            services.AddDbContext<ChrisJohnInfoBlogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ChrisJohnInfoBlog")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

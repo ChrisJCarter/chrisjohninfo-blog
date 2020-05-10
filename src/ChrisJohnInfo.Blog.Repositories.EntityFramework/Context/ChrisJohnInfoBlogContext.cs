@@ -8,16 +8,9 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework.Context
 {
     public partial class ChrisJohnInfoBlogContext : DbContext
     {
-        private readonly string _connectionString;
-        public ChrisJohnInfoBlogContext(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-
-        public ChrisJohnInfoBlogContext(string connectionString, DbContextOptions<ChrisJohnInfoBlogContext> options)
+        public ChrisJohnInfoBlogContext(DbContextOptions<ChrisJohnInfoBlogContext> options)
             : base(options)
         {
-            _connectionString = connectionString;
         }
 
         public virtual DbSet<Author> Authors { get; set; }
@@ -25,10 +18,6 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(_connectionString);
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

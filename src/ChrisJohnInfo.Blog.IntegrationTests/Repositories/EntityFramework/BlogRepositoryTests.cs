@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using ChrisJohnInfo.Blog.Repositories.EntityFramework;
 using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ namespace ChrisJohnInfo.Blog.IntegrationTests.Repositories.EntityFramework
     public class BlogRepositoryTests
     {
         private readonly IConfiguration _configuration;
-
+        
         public BlogRepositoryTests()
         {
             _configuration = new ConfigurationBuilder()
@@ -22,9 +23,10 @@ namespace ChrisJohnInfo.Blog.IntegrationTests.Repositories.EntityFramework
         [Test]
         public async Task GetPosts()
         {
-            var connectionString = _configuration.GetConnectionString("ChrisJohnInfoBlog");
-            Assert.That(connectionString, Is.EqualTo("server=.;database=ChrisJohnInfoBlog;trusted_connection=true;"));
-            var context = new ChrisJohnInfoBlogContext(connectionString);
+            var optionsBuilder = new DbContextOptionsBuilder<ChrisJohnInfoBlogContext>()
+                .UseSqlServer(_configuration.GetConnectionString("ChrisJohnInfoBlog"));
+            var context = new ChrisJohnInfoBlogContext(optionsBuilder.Options);
+            var repo = new BlogRepository(context);
             var posts = await context.Posts.ToListAsync();
             Assert.That(posts.Count, Is.EqualTo(1));
             var post = posts.First();

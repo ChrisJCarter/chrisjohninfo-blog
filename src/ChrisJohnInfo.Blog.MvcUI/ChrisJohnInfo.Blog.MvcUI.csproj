@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ChrisJohnInfo.Blog.Contracts\ChrisJohnInfo.Blog.Contracts.csproj" />
+    <ProjectReference Include="..\ChrisJohnInfo.Blog.Core\ChrisJohnInfo.Blog.Core.csproj" />
     <ProjectReference Include="..\ChrisJohnInfo.Blog.Repositories.EntityFramework\ChrisJohnInfo.Blog.Repositories.EntityFramework.csproj" />
   </ItemGroup>
 
