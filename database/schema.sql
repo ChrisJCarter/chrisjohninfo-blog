@@ -1,3 +1,6 @@
+use ChrisJohnInfoBlog
+go
+
 IF OBJECT_ID('Post') IS NOT NULL
 	DROP TABLE [Post]
 GO

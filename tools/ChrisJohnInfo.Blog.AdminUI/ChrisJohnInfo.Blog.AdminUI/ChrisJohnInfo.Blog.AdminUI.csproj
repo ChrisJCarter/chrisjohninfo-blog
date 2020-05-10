@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>a2bf567b-768c-4818-b9e4-9ad84fd44eb1</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\ChrisJohnInfo.Blog.Contracts\ChrisJohnInfo.Blog.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\src\ChrisJohnInfo.Blog.Core\ChrisJohnInfo.Blog.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\ChrisJohnInfo.Blog.Repositories.EntityFramework\ChrisJohnInfo.Blog.Repositories.EntityFramework.csproj" />
+  </ItemGroup>
+
+
+
+</Project>
