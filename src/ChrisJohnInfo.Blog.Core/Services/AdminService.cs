@@ -38,5 +38,10 @@ namespace ChrisJohnInfo.Blog.Core.Services
         {
             await _repo.DeleteAuthorAsync(authorId);
         }
+
+        public async Task<IEnumerable<Post>> GetPostsAsync()
+        {
+            return await _repo.GetPostsAsync();
+        }
     }
 }

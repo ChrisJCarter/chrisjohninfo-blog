@@ -11,5 +11,6 @@ namespace ChrisJohnInfo.Blog.Contracts.Interfaces
         Task<Author> GetAuthorAsync(int authorId);
         Task UpdateAuthorAsync(Author author);
         Task DeleteAuthorAsync(int authorId);
+        Task<IEnumerable<Post>> GetPostsAsync();
     }
 }
