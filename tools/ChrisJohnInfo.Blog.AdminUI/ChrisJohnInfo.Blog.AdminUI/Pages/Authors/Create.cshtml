@@ -1,0 +1,33 @@
+﻿@page
+@model ChrisJohnInfo.Blog.AdminUI.Pages.Authors.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Author</h1>
+<div class="row">
+    <div class="col-6">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                <label for="FirstName">First Name</label>
+                <input type="text" id="FirstName" name="FirstName" class="form-control focus-me" />
+            </div>
+
+            <div class="form-group">
+                <label for="LastName">Last Name</label>
+                <input type="text" id="LastName" name="LastName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="NickName">Nick Name</label>
+                <input type="text" id="NickName" name="NickName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <a class="btn btn-light" asp-page="/Authors/Index">Cancel</a>
+                <button class="btn btn-primary">Create</button>
+            </div>
+        }
+    </div>
+</div>

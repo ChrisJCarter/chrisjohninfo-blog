@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ChrisJohnInfo.Blog.Contracts.Interfaces;
+using ChrisJohnInfo.Blog.Core.Services;
+using ChrisJohnInfo.Blog.Repositories.EntityFramework;
 using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +25,8 @@ namespace ChrisJohnInfo.Blog.AdminUI
         {
             services.AddRazorPages();
             services.AddDbContext<ChrisJohnInfoBlogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ChrisJohnInfoBlog")));
-            
+            services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IAdminService, AdminService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,34 @@
+﻿@page
+@model ChrisJohnInfo.Blog.AdminUI.Pages.Authors.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Authors Editor</h1>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>NickName</td>
+        <td><a class="btn btn-primary btn-sm" asp-page="/Authors/Create">New</a></td>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var author in Model.Authors)
+    {
+        <tr>
+            <td>@author.AuthorId</td>
+            <td>@author.FirstName</td>
+            <td>@author.LastName</td>
+            <td>@author.NickName</td>
+            <td>
+                <a class="btn btn-primary btn-sm mr-sm-2" asp-page="/Authors/Edit" asp-route-id="@author.AuthorId">Edit</a>
+                <a class="btn btn-danger btn-sm" asp-page="/Authors/Delete" asp-route-id="@author.AuthorId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
