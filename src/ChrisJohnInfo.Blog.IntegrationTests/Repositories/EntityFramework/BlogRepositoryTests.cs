@@ -28,9 +28,9 @@ namespace ChrisJohnInfo.Blog.IntegrationTests.Repositories.EntityFramework
             var context = new ChrisJohnInfoBlogContext(optionsBuilder.Options);
             var repo = new BlogRepository(context);
             var posts = await context.Posts.ToListAsync();
-            Assert.That(posts.Count, Is.EqualTo(1));
+            Assert.That(posts.Count, Is.AtLeast(1));
             var post = posts.First();
-            Assert.That(post.Title, Is.EqualTo("This is my post"));
+            Assert.That(post.Title, Is.EqualTo("The Blog Project"));
         }
     }
 }

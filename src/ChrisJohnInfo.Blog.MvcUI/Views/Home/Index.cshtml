@@ -7,7 +7,7 @@
             <p class="post-meta">By <b>@post.Author</b> on <b>@post.DatePublished</b></p>
         </header>
         <div class="post-description">
-            @post.Content
+            @Html.Raw(post.Content)
         </div>
     </section>
 }

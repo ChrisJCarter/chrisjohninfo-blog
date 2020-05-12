@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ChrisJohnInfo.Blog.Contracts.Interfaces;
+﻿using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using ChrisJohnInfo.Blog.Contracts.Models;
 using ChrisJohnInfo.Blog.Core.Services;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ChrisJohnInfo.Blog.Tests
 {
@@ -18,7 +17,7 @@ namespace ChrisJohnInfo.Blog.Tests
         {
             var blogRepository = new Mock<IBlogRepository>(MockBehavior.Strict);
             blogRepository
-                .Setup(s => s.GetPosts())
+                .Setup(s => s.GetPosts(false))
                 .ReturnsAsync(new List<PostViewModel>{new PostViewModel{Title = "Hello World"}});
 
             var service = new BlogService(blogRepository.Object);
@@ -28,7 +27,7 @@ namespace ChrisJohnInfo.Blog.Tests
             Assert.That(posts.Count(), Is.EqualTo(1));
             Assert.That(posts.ElementAt(0).Title, Is.EqualTo("Hello World"));
             blogRepository
-                .Verify(s => s.GetPosts(), Times.Once);
+                .Verify(s => s.GetPosts(false), Times.Once);
         }
     }
 }

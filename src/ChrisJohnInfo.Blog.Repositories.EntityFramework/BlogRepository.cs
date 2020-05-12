@@ -16,16 +16,24 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
         {
             _context = context;
         }
-        public async Task<IEnumerable<PostViewModel>> GetPosts()
+        public async Task<IEnumerable<PostViewModel>> GetPosts(bool publishedOnly)
         {
-            return await (from p in _context.Posts
-                select new PostViewModel
-                {
-                    Author = p.Author.NickName,
-                    Title = p.Title,
-                    Content = p.Content,
-                    DatePublished = p.DatePublished.Value
-                }).ToListAsync();
+            var query = (from p in _context.Posts
+                         select p);
+
+            if (publishedOnly)
+            {
+                query = query.Where(p => p.DatePublished.HasValue);
+            }
+
+            return await query.Select(p =>
+                          new PostViewModel
+                          {
+                              Author = p.Author.NickName,
+                              Title = p.Title,
+                              Content = p.Content,
+                              DatePublished = p.DatePublished.Value
+                          }).ToListAsync();
         }
     }
 }
