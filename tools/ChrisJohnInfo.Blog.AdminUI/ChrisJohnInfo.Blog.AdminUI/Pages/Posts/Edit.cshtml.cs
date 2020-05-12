@@ -1,12 +1,12 @@
-﻿using System;
-using ChrisJohnInfo.Blog.Contracts.Interfaces;
+﻿using ChrisJohnInfo.Blog.Contracts.Interfaces;
+using ChrisJohnInfo.Blog.Contracts.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ChrisJohnInfo.Blog.Contracts.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ChrisJohnInfo.Blog.AdminUI.Pages.Posts
 {
@@ -32,8 +32,6 @@ namespace ChrisJohnInfo.Blog.AdminUI.Pages.Posts
 
         public async Task<IActionResult> OnPostAsync(Post post)
         {
-            bool.TryParse(Request.Form["IsPublished"][0], out var isPublished);
-            post.DatePublished = isPublished ? (DateTime?) DateTime.Now : null;
             await _service.UpdatePostAsync(post);
             return RedirectToPage("/Posts/Index");
         }

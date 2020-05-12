@@ -18,7 +18,7 @@
     {
         <tr>
             <td>@post.Title</td>
-            <td>@(post.DatePublished.HasValue ? post.DatePublished.ToString() : "")</td>
+            <td>@($"{post.DatePublished:d}")</td>
             <td>
                 <a asp-page="/Posts/Edit" class="btn btn-primary" asp-route-id="@post.PostId">Edit</a>
                 <a asp-page="/Posts/Delete" class="btn btn-danger" asp-route-id="@post.PostId">Delete</a>

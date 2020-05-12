@@ -9,4 +9,11 @@ function focusFormElement() {
     matches[0].focus();
 }
 
-focusFormElement();
+$(() => {
+
+    focusFormElement();
+    $('.datepicker').datepicker({
+        format:'mm/dd/yyyy'
+    });
+});
+
