@@ -1,4 +1,5 @@
-﻿using ChrisJohnInfo.Blog.Contracts.Interfaces;
+﻿using System;
+using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using ChrisJohnInfo.Blog.Contracts.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -42,6 +43,26 @@ namespace ChrisJohnInfo.Blog.Core.Services
         public async Task<IEnumerable<Post>> GetPostsAsync()
         {
             return await _repo.GetPostsAsync();
+        }
+
+        public async Task<Post> GetPostAsync(Guid postId)
+        {
+            return await _repo.GetPostAsync(postId);
+        }
+
+        public async Task UpdatePostAsync(Post post)
+        {
+            await _repo.UpdatePostAsync(post);
+        }
+
+        public async Task CreatePostAsync(Post post)
+        {
+            await _repo.CreatePostAsync(post);
+        }
+
+        public async Task DeletePostAsync(Guid postId)
+        {
+            await _repo.DeletePostAsync(postId);
         }
     }
 }

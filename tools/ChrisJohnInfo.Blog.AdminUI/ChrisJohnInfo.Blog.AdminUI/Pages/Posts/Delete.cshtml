@@ -4,5 +4,23 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
-
+<h1>Confirm Delete</h1>
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-6">
+            <p>Are you sure you want to delete this post?</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <p><b>@Model.Post.Title</b></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <a asp-page="/Posts/Index" class="btn btn-light">Cancel</a>
+            <button class="btn btn-danger">Delete</button>
+        </div>
+    </div>
+}

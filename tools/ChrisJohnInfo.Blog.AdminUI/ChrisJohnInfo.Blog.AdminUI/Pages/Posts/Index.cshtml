@@ -8,7 +8,8 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Id</th>
+        <th>Title</th>
+        <th>Date Published</th>
         <th><a asp-page="/Posts/Create" class="btn btn-primary">Create</a></th>
     </tr>
     </thead>
@@ -16,7 +17,8 @@
     @foreach (var post in Model.Posts)
     {
         <tr>
-            <td>@post.PostId</td>
+            <td>@post.Title</td>
+            <td>@(post.DatePublished.HasValue ? post.DatePublished.ToString() : "")</td>
             <td>
                 <a asp-page="/Posts/Edit" class="btn btn-primary" asp-route-id="@post.PostId">Edit</a>
                 <a asp-page="/Posts/Delete" class="btn btn-danger" asp-route-id="@post.PostId">Delete</a>
