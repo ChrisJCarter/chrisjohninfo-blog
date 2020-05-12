@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using ChrisJohnInfo.Blog.Contracts.Models;
 using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Entities = ChrisJohnInfo.Blog.Repositories.EntityFramework.Entitites;
 
@@ -22,12 +24,12 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
 
         public async Task<Author> GetAuthorAsync(int authorId)
         {
-            return _mapper.Map<Author>(await _context.Authors.FirstOrDefaultAsync(x => x.AuthorId == authorId));
+            return await _mapper.ProjectTo<Author>(_context.Authors.Where(a => a.AuthorId == authorId)).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Author>> GetAuthorsAsync()
         {
-            return _mapper.Map<List<Author>>(await _context.Authors.ToListAsync());
+            return await _mapper.ProjectTo<Author>(_context.Authors).ToListAsync();
         }
 
         public async Task<Author> CreateAuthorAsync(Author author)
@@ -46,7 +48,7 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
             {
                 throw new InvalidOperationException($"Entity with id {author.AuthorId} was not found!");
             }
-
+            
             _mapper.Map(author, entity);
             await _context.SaveChangesAsync();
         }
@@ -65,7 +67,7 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
 
         public async Task<IEnumerable<Post>> GetPostsAsync()
         {
-            return _mapper.Map<List<Post>>(await _context.Posts.ToListAsync());
+            return await _mapper.ProjectTo<Post>(_context.Posts).ToListAsync();
         }
 
         public async Task<Post> CreatePostAsync(Post post)

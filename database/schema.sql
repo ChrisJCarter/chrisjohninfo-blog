@@ -25,7 +25,7 @@ CREATE TABLE [Post](
 	[DatePublished] DATETIME NULL
 )
 GO
-
+/*
 DECLARE @AuthorId INT
 INSERT INTO AUTHOR([FirstName], [LastName], [NickName])VALUES
 ('Chris', 'Carter', 'ChrisJohn')
@@ -33,3 +33,4 @@ SELECT @AuthorId = SCOPE_IDENTITY()
 INSERT INTO [Post]([PostId], [AuthorId], [Title], [Content], [DatePublished]) VALUES
 (NEWID(), @AuthorId, 'This is my post', 'This is my content', GETDATE())
 GO
+*/

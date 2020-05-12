@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using ChrisJohnInfo.Blog.Contracts.Models;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
@@ -117,6 +118,19 @@ namespace ChrisJohnInfo.Blog.IntegrationTests.Repositories.EntityFramework
             Assert.That(existing, Is.Null);
 
 
+        }
+
+        [Test]
+        public async Task EfTest()
+        {
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<BlogProfile>();
+            });
+            IMapper mapper = new Mapper(mapperConfiguration);
+            await using var context = CreateContext();
+            var author = await mapper.ProjectTo<Author>(context.Authors.Where(a => a.FirstName == "Chris")).FirstOrDefaultAsync();
+            Assert.That(author, Is.Not.Null);
         }
     }
 }
