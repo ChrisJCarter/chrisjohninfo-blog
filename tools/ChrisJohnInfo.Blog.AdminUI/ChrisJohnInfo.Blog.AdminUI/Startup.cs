@@ -1,3 +1,4 @@
+using AutoMapper;
 using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using ChrisJohnInfo.Blog.Core.Services;
 using ChrisJohnInfo.Blog.Repositories.EntityFramework;
@@ -27,6 +28,7 @@ namespace ChrisJohnInfo.Blog.AdminUI
             services.AddDbContext<ChrisJohnInfoBlogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ChrisJohnInfoBlog")));
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddAutoMapper(typeof(AdminRepository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

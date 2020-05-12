@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using ChrisJohnInfo.Blog.Contracts.Models;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
@@ -25,7 +26,12 @@ namespace ChrisJohnInfo.Blog.IntegrationTests.Repositories.EntityFramework
         }
         private IAdminRepository CreateRepository()
         {
-            return new AdminRepository(CreateContext());
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<BlogProfile>();
+            }).CreateMapper();
+
+            return new AdminRepository(CreateContext(), mapper);
         }
 
         public AdminRepositoryTests()
