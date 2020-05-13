@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>bed0fc87-47c8-44ae-8d72-b372a19f649b</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\src\ChrisJohnInfo.Blog.Contracts\Models\Author.cs" Link="Author.cs" />
+    <Compile Include="..\..\..\src\ChrisJohnInfo.Blog.Contracts\Models\Post.cs" Link="Post.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.4" />
+  </ItemGroup>
+
+</Project>
