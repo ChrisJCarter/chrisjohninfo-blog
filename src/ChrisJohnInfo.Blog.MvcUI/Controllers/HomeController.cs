@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using ChrisJohnInfo.Blog.Contracts.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace ChrisJohnInfo.Blog.MvcUI.Controllers
 {
@@ -11,10 +12,13 @@ namespace ChrisJohnInfo.Blog.MvcUI.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IBlogService _service;
-        public HomeController(ILogger<HomeController> logger, IBlogService service)
+        private readonly IConfiguration _configuration;
+
+        public HomeController(ILogger<HomeController> logger, IBlogService service, IConfiguration configuration)
         {
             _logger = logger;
             _service = service;
+            _configuration = configuration;
         }
 
         public async Task<IActionResult> Index()

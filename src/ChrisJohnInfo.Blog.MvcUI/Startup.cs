@@ -27,7 +27,8 @@ namespace ChrisJohnInfo.Blog.MvcUI
             services.AddControllersWithViews();
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<IBlogService, BlogService>();
-            services.AddDbContext<ChrisJohnInfoBlogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ChrisJohnInfoBlog")));
+            services.AddDbContext<ChrisJohnInfoBlogContext>(options => 
+                options.UseSqlServer(Configuration["sql-ChrisJohnInfoBlog-001"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
