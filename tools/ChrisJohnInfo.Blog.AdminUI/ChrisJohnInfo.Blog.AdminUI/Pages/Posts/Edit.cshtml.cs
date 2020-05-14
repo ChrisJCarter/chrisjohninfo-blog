@@ -12,8 +12,10 @@ namespace ChrisJohnInfo.Blog.AdminUI.Pages.Posts
 {
     public class EditModel : PageModel
     {
-        public Post Post { get; set; }
+        public Post Post { get; set; } = new Post();
+
         public IEnumerable<SelectListItem> Authors { get; set; }
+        
         private readonly IAdminService _service;
 
         public EditModel(IAdminService service)
@@ -21,9 +23,13 @@ namespace ChrisJohnInfo.Blog.AdminUI.Pages.Posts
             _service = service;
         }
 
-        public async Task OnGetAsync(Guid id)
+        public async Task OnGetAsync(Guid? id)
         {
-            Post = await _service.GetPostAsync(id);
+            if (id != null)
+            {
+                Post = await _service.GetPostAsync(id.Value);
+            }
+
             Authors = (await _service.GetAuthorsAsync())
                 .OrderBy(a => a.LastName)
                 .ThenBy(a => a.FirstName)
@@ -32,7 +38,15 @@ namespace ChrisJohnInfo.Blog.AdminUI.Pages.Posts
 
         public async Task<IActionResult> OnPostAsync(Post post)
         {
-            await _service.UpdatePostAsync(post);
+            if (post.PostId == Guid.Empty)
+            {
+                await _service.CreatePostAsync(post);
+            }
+            else
+            {
+                await _service.UpdatePostAsync(post);
+            }
+            
             return RedirectToPage("/Posts/Index");
         }
     }

@@ -1,33 +1,30 @@
 ﻿@page
 @model ChrisJohnInfo.Blog.AdminUI.Pages.Authors.EditModel
-@{
-    ViewData["Title"] = "Edit";
-}
 
-<h1>Edit Author</h1>
+<h1>@(Model.Author.AuthorId == 0 ? "Create" : "Edit") Author</h1>
 <div class="row">
     <div class="col-6">
         @using (Html.BeginForm())
         {
-            @Html.HiddenFor(m => m.Author.AuthorId)
+            <input type="hidden" asp-for="Author.AuthorId" />
             <div class="form-group">
-                @Html.LabelFor(m => m.Author.FirstName, "First Name")
-                @Html.TextBoxFor(m => m.Author.FirstName, new { @class = "form-control focus-me"})
+                <label asp-for="Author.FirstName">First Name</label>
+                <input asp-for="Author.FirstName" class="form-control focus-me"/>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Author.LastName, "Last Name")
-                @Html.TextBoxFor(m => m.Author.LastName, new { @class = "form-control"})
+                <label asp-for="Author.LastName">Last Name</label>
+                <input asp-for="Author.LastName" class="form-control" />
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Author.NickName, "Nick Name")
-                @Html.TextBoxFor(m => m.Author.NickName, new { @class = "form-control"})
+                <label asp-for="Author.NickName">Nick Name</label>
+                <input asp-for="Author.NickName" class="form-control" />
             </div>
 
             <div class="form-group">
                 <a class="btn btn-light" asp-page="/Authors/Index">Cancel</a>
-                <button class="btn btn-primary">Update</button>
+                <button class="btn btn-primary">@(Model.Author.AuthorId == 0 ? "Create" : "Update")</button>
             </div>
         }
     </div>

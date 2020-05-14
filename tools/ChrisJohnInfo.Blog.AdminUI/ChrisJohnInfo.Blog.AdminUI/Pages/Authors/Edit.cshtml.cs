@@ -19,12 +19,19 @@ namespace ChrisJohnInfo.Blog.AdminUI.Pages.Authors
 
         public async Task OnGetAsync(int id)
         {
-            Author = await _service.GetAuthorAsync(id);
+            Author = await _service.GetAuthorAsync(id) ?? new Author();
         }
 
         public async Task<IActionResult> OnPostAsync(Author author)
         {
-            await _service.UpdateAuthorAsync(author);
+            if (author.AuthorId == 0)
+            {
+                await _service.CreateAuthorAsync(author);
+            }
+            else
+            {
+                await _service.UpdateAuthorAsync(author);
+            }
             return RedirectToPage("/Authors/Index");
         }
     }
