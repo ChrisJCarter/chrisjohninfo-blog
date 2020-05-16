@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30028.174
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChrisJohnInfo.Blog.MvcUI", "ChrisJohnInfo.Blog.MvcUI\ChrisJohnInfo.Blog.MvcUI.csproj", "{0374748A-2CCD-498D-86F8-3A1C89F328A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChrisJohnInfo.Blog.MvcUI", "src\ChrisJohnInfo.Blog.MvcUI\ChrisJohnInfo.Blog.MvcUI.csproj", "{0374748A-2CCD-498D-86F8-3A1C89F328A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.Contracts", "ChrisJohnInfo.Blog.Contracts\ChrisJohnInfo.Blog.Contracts.csproj", "{A74B33F7-7833-49F3-A0C4-3C734035C30E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.Contracts", "src\ChrisJohnInfo.Blog.Contracts\ChrisJohnInfo.Blog.Contracts.csproj", "{A74B33F7-7833-49F3-A0C4-3C734035C30E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.Repositories.EntityFramework", "ChrisJohnInfo.Blog.Repositories.EntityFramework\ChrisJohnInfo.Blog.Repositories.EntityFramework.csproj", "{2FCCAC28-7183-49E6-93EF-79284A51F7AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.Repositories.EntityFramework", "src\ChrisJohnInfo.Blog.Repositories.EntityFramework\ChrisJohnInfo.Blog.Repositories.EntityFramework.csproj", "{2FCCAC28-7183-49E6-93EF-79284A51F7AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.IntegrationTests", "ChrisJohnInfo.Blog.IntegrationTests\ChrisJohnInfo.Blog.IntegrationTests.csproj", "{A91E042F-1B61-425E-A650-EC0A03165FE9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.IntegrationTests", "src\ChrisJohnInfo.Blog.IntegrationTests\ChrisJohnInfo.Blog.IntegrationTests.csproj", "{A91E042F-1B61-425E-A650-EC0A03165FE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.Core", "ChrisJohnInfo.Blog.Core\ChrisJohnInfo.Blog.Core.csproj", "{35C7FE4F-63D4-4E8E-8778-425604F3D45B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.Core", "src\ChrisJohnInfo.Blog.Core\ChrisJohnInfo.Blog.Core.csproj", "{35C7FE4F-63D4-4E8E-8778-425604F3D45B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.Tests", "ChrisJohnInfo.Blog.Tests\ChrisJohnInfo.Blog.Tests.csproj", "{EF2AE98E-7450-45C1-B3FC-58506B87947F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.Tests", "src\ChrisJohnInfo.Blog.Tests\ChrisJohnInfo.Blog.Tests.csproj", "{EF2AE98E-7450-45C1-B3FC-58506B87947F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
