@@ -15,9 +15,26 @@ namespace DataMigrator
                 .AddUserSecrets("bed0fc87-47c8-44ae-8d72-b372a19f649b")
                 .Build();
 
-            IRepository source = new Repository(configuration["remote"]);
-            IRepository dest = new Repository(configuration["local"]);
+            IRepository source = new Repository(configuration["local"]);
+            IRepository dest = new Repository(configuration["remote"]);
+            var postId = Guid.Parse("bec348a9-1079-47ba-932a-6efcec1aa479");
+            await CopyPost(postId, source, dest);
 
+        }
+
+        private static async Task CopyPost(Guid postId, IRepository source, IRepository dest)
+        {
+            Console.Write("Retrieving post...");
+            var post = await source.GetPostAsync(postId);
+            Console.WriteLine("done.");
+
+            Console.Write("Saving post...");
+            await dest.InsertPostAsync(post);
+            Console.WriteLine("done.");
+        }
+
+        private static async Task CopyEverything(IRepository source, IRepository dest)
+        {
             Console.Write("Deleting posts...");
             await dest.DeletePostsAsync();
             Console.WriteLine("done.");
@@ -52,6 +69,8 @@ namespace DataMigrator
         Task DeletePostsAsync();
         Task<IEnumerable<Post>> GetPostsAsync();
         Task InsertPostsAsync(IEnumerable<Post> posts);
+        Task<Post> GetPostAsync(Guid postId);
+        Task InsertPostAsync(Post post);
     }
 
     public class Repository : IRepository
@@ -106,7 +125,7 @@ namespace DataMigrator
                 cmd.Parameters.AddWithValue("@authorid", author.AuthorId);
                 cmd.Parameters.AddWithValue("@firstname", author.FirstName);
                 cmd.Parameters.AddWithValue("@lastname", author.LastName);
-                cmd.Parameters.AddWithValue("@nickname",  author.NickName);
+                cmd.Parameters.AddWithValue("@nickname", author.NickName);
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Parameters.Clear();
             }
@@ -144,24 +163,51 @@ namespace DataMigrator
             return result;
         }
 
-        public async Task InsertPostsAsync(IEnumerable<Post> posts)
+        public async Task InsertPostAsync(Post post)
         {
             var sql = "insert into post(postid,authorid,title,content,datepublished)values(@postid,@authorid,@title,@content,@datepublished)";
             await using var cn = new SqlConnection(_connectionString);
             await using var cmd = new SqlCommand(sql, cn);
             await cn.OpenAsync();
+            cmd.Parameters.AddWithValue("@postid", post.PostId);
+            cmd.Parameters.AddWithValue("@authorid", post.AuthorId);
+            cmd.Parameters.AddWithValue("@title", post.Title);
+            cmd.Parameters.AddWithValue("@content", post.Content);
+            cmd.Parameters.AddWithValue("@datepublished", post.DatePublished);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        public async Task InsertPostsAsync(IEnumerable<Post> posts)
+        {
             foreach (var post in posts)
             {
-                cmd.Parameters.AddWithValue("@postid", post.PostId);
-                cmd.Parameters.AddWithValue("@authorid", post.AuthorId);
-                cmd.Parameters.AddWithValue("@title", post.Title);
-                cmd.Parameters.AddWithValue("@content", post.Content);
-                cmd.Parameters.AddWithValue("@datepublished", post.DatePublished);
-                await cmd.ExecuteNonQueryAsync();
-                cmd.Parameters.Clear();
+                await InsertPostAsync(post);
             }
+        }
+
+        public async Task<Post> GetPostAsync(Guid postId)
+        {
+            var sql = "select postid, authorid, title, content, datepublished from post where postid=@postid";
+            await using var cn = new SqlConnection(_connectionString);
+            await using var cmd = new SqlCommand(sql, cn);
+            cmd.Parameters.AddWithValue("@postid", postId);
+            await cn.OpenAsync();
+            await using var reader = await cmd.ExecuteReaderAsync();
+            if (await reader.ReadAsync())
+            {
+                return new Post
+                {
+                    PostId = reader.GetGuid(0),
+                    AuthorId = reader.GetInt32(1),
+                    Title = reader.GetString(2),
+                    Content = reader.GetString(3),
+                    DatePublished = reader.GetFieldValue<DateTime?>(4)
+                };
+            }
+
+            return null;
         }
     }
 
-    
+
 }
