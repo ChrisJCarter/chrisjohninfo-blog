@@ -12,9 +12,12 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
+- task: DotNetCoreCLI@2
   displayName: 'dotnet build $(buildConfiguration)'
+  inputs:
+    command: build
+    projects: 
+      src/ChrisJohnInfo.Blog.MvcUI/ChrisJohnInfo.Blog.MvcUI.csproj
 
 - task: DotNetCoreCLI@2
   displayName: "Publish"
