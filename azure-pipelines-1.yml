@@ -13,5 +13,11 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration) src/ChrisJohnInfo.Blog.MvcUI/ChrisJohnInfo.Blog.MvcUI.csproj
+#- script: dotnet build --configuration $(buildConfiguration) src/ChrisJohnInfo.Blog.MvcUI/ChrisJohnInfo.Blog.MvcUI.csproj
+#  displayName: 'dotnet build $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
   displayName: 'dotnet build $(buildConfiguration)'
+  inputs:
+   command: 'build'
+   projects: src/*.MvcUI/*.csproj
