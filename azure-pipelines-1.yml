@@ -26,7 +26,7 @@ steps:
   displayName: 'Publish'
   inputs:
     command: 'publish'
-    publishWebProjects: true
+    projects: src/*.MvcUI/*.csproj
     arguments: '-r linux-x64 --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 
