@@ -1,6 +1,6 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
@@ -11,3 +11,27 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+
+steps:
+#- script: dotnet build --configuration $(buildConfiguration) src/ChrisJohnInfo.Blog.MvcUI/ChrisJohnInfo.Blog.MvcUI.csproj
+#  displayName: 'dotnet build $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build $(buildConfiguration)'
+  inputs:
+   command: 'build'
+   projects: src/*.MvcUI/*.csproj
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    arguments: '-r linux-x64 --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) src/ChrisJohnInfo.Blog.MvcUI/ChrisJohnInfo.Blog.MvcUI.csproj'
+    zipAfterPublish: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Upload Artifacts'
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'blog' 
