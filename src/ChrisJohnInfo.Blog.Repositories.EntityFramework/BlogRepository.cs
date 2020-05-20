@@ -1,10 +1,10 @@
 ﻿using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using ChrisJohnInfo.Blog.Contracts.Models;
+using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
 {
@@ -16,23 +16,25 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
         {
             _context = context;
         }
-        public async Task<IEnumerable<PostViewModel>> GetPosts(bool publishedOnly)
+        public async Task<IEnumerable<Post>> GetPosts(bool publishedOnly)
         {
             var query = (from p in _context.Posts
-                         select p);
+                select p);
 
             if (publishedOnly)
             {
                 query = query.Where(p => p.DatePublished.HasValue);
             }
 
+
             return await query.Select(p =>
-                          new PostViewModel
+                          new Post
                           {
-                              Author = p.Author.NickName,
+                              PostId = p.PostId,
                               Title = p.Title,
                               Content = p.Content,
-                              DatePublished = p.DatePublished.Value
+                              DatePublished = p.DatePublished,
+                              AuthorId = p.AuthorId
                           }).ToListAsync();
         }
     }

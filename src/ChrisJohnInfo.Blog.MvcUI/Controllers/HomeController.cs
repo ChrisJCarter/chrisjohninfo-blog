@@ -1,7 +1,9 @@
-﻿using ChrisJohnInfo.Blog.MvcUI.Models;
+﻿using System;
+using ChrisJohnInfo.Blog.MvcUI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +25,15 @@ namespace ChrisJohnInfo.Blog.MvcUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _service.GetPosts());
+            var posts = (await _service.GetPosts()).Select(p => new PostViewModel
+            {
+                AuthorName = "TODO!",
+                PostId = p.PostId,
+                DatePublished = p.DatePublished,
+                Title = p.Title,
+                Content = p.Content
+            });
+            return View(posts);
         }
 
 

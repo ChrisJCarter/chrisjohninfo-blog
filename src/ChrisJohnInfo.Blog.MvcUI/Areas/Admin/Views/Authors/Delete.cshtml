@@ -1,0 +1,15 @@
+﻿@model ChrisJohnInfo.Blog.Contracts.Models.Author
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Confirm Delete</h1>
+@using (Html.BeginForm())
+{
+    <input type="hidden" asp-for="@Model.AuthorId" />
+    <div class="form-group"><p>Are you sure you want to delete @Model.FirstName @Model.LastName?</p></div>
+    <div class="form-group">
+        <a asp-page="/Authors/Index" class="btn btn-light">Cancel</a>
+        <button class="btn btn-danger">Delete</button>
+    </div>
+}

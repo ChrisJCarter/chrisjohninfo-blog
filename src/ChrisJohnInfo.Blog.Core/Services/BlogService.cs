@@ -14,7 +14,7 @@ namespace ChrisJohnInfo.Blog.Core.Services
             _blogRepository = blogRepository;
         }
 
-        public async Task<IEnumerable<PostViewModel>> GetPosts()
+        public async Task<IEnumerable<Post>> GetPosts()
         {
             return await _blogRepository.GetPosts(publishedOnly: true);
         }
