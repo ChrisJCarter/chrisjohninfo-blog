@@ -1,11 +1,7 @@
-using System;
-using AutoMapper;
-using ChrisJohnInfo.Blog.Contracts.Interfaces;
-using ChrisJohnInfo.Blog.Core.Services;
-using ChrisJohnInfo.Blog.Repositories.EntityFramework;
-using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
+using ChrisJohnInfo.Blog.MvcUI.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,14 +21,12 @@ namespace ChrisJohnInfo.Blog.MvcUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-            services.AddScoped<IBlogRepository, BlogRepository>();
-            services.AddScoped<IBlogService, BlogService>();
-            services.AddScoped<IAdminRepository, AdminRepository>();
-            services.AddScoped<IAdminService, AdminService>();
-            services.AddDbContext<ChrisJohnInfoBlogContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration["sql-ChrisJohnInfoBlog-001"]));
-            services.AddAutoMapper(typeof(AdminRepository));
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +35,7 @@ namespace ChrisJohnInfo.Blog.MvcUI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -53,18 +48,15 @@ namespace ChrisJohnInfo.Blog.MvcUI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapAreaControllerRoute(
-                    name: "admin",
-                    areaName: "admin",
-                    pattern: "admin/{controller}/{action=Index}/{id?}"
-                );
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
