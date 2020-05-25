@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ChrisJohnInfo.Blog.Contracts.ViewModels;
 using Models = ChrisJohnInfo.Blog.Contracts.Models;
 using Entities = ChrisJohnInfo.Blog.Repositories.EntityFramework.Entitites;
 
@@ -10,6 +11,7 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
         {
             CreateMap<Entities.Author, Models.Author>().ReverseMap();
             CreateMap<Entities.Post, Models.Post>().ReverseMap();
+            
         }
     }
 }

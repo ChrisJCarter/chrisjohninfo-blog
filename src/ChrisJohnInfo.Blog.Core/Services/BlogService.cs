@@ -1,5 +1,5 @@
 ﻿using ChrisJohnInfo.Blog.Contracts.Interfaces;
-using ChrisJohnInfo.Blog.Contracts.Models;
+using ChrisJohnInfo.Blog.Contracts.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,7 +14,7 @@ namespace ChrisJohnInfo.Blog.Core.Services
             _blogRepository = blogRepository;
         }
 
-        public async Task<IEnumerable<Post>> GetPosts()
+        public async Task<IEnumerable<PostViewModel>> GetPosts()
         {
             return await _blogRepository.GetPosts(publishedOnly: true);
         }

@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChrisJohnInfo.Blog.Contracts.ViewModels;
 
 namespace ChrisJohnInfo.Blog.Tests
 {
@@ -18,7 +19,7 @@ namespace ChrisJohnInfo.Blog.Tests
             var blogRepository = new Mock<IBlogRepository>(MockBehavior.Strict);
             blogRepository
                 .Setup(s => s.GetPosts(false))
-                .ReturnsAsync(new List<Post>{new Post{Title = "Hello World"}});
+                .ReturnsAsync(new List<PostViewModel>{new PostViewModel{Title = "Hello World"}});
 
             var service = new BlogService(blogRepository.Object);
 
