@@ -1,4 +1,4 @@
-﻿using ChrisJohnInfo.Blog.Contracts.Models;
+﻿using ChrisJohnInfo.Blog.Contracts.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,6 +6,6 @@ namespace ChrisJohnInfo.Blog.Contracts.Interfaces
 {
     public interface IBlogRepository
     {
-        Task<IEnumerable<Post>> GetPosts(bool publishedOnly);
+        Task<IEnumerable<PostViewModel>> GetPosts(bool publishedOnly);
     }
 }

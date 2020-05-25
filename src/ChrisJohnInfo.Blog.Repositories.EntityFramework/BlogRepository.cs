@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChrisJohnInfo.Blog.Contracts.ViewModels;
 
 namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
 {
@@ -16,7 +17,7 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
         {
             _context = context;
         }
-        public async Task<IEnumerable<Post>> GetPosts(bool publishedOnly)
+        public async Task<IEnumerable<PostViewModel>> GetPosts(bool publishedOnly)
         {
             var query = (from p in _context.Posts
                 select p);
@@ -26,15 +27,16 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
                 query = query.Where(p => p.DatePublished.HasValue);
             }
 
+            query.Include(p => p.Author);
 
             return await query.Select(p =>
-                          new Post
+                          new PostViewModel
                           {
                               PostId = p.PostId,
                               Title = p.Title,
                               Content = p.Content,
                               DatePublished = p.DatePublished,
-                              AuthorId = p.AuthorId
+                              AuthorName = p.Author.NickName ?? $"{p.Author.FirstName} {p.Author.LastName}"
                           }).ToListAsync();
         }
     }

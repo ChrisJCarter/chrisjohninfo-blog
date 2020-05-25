@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ChrisJohnInfo.Blog.MvcUI.Models.PostViewModel>
+﻿@model IEnumerable<ChrisJohnInfo.Blog.Contracts.ViewModels.PostViewModel>
 @foreach (var post in Model.OrderByDescending(p => p.DatePublished))
 {
     <section class="post">

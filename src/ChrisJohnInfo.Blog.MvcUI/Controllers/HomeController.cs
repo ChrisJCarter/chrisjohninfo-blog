@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using ChrisJohnInfo.Blog.Contracts.Interfaces;
+using ChrisJohnInfo.Blog.Contracts.ViewModels;
 using Microsoft.Extensions.Configuration;
 
 namespace ChrisJohnInfo.Blog.MvcUI.Controllers
@@ -25,14 +26,7 @@ namespace ChrisJohnInfo.Blog.MvcUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var posts = (await _service.GetPosts()).Select(p => new PostViewModel
-            {
-                AuthorName = "TODO!",
-                PostId = p.PostId,
-                DatePublished = p.DatePublished,
-                Title = p.Title,
-                Content = p.Content
-            });
+            var posts = await _service.GetPosts();
             return View(posts);
         }
 

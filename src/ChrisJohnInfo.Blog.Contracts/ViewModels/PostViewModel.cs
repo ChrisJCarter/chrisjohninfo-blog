@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChrisJohnInfo.Blog.MvcUI.Models
+namespace ChrisJohnInfo.Blog.Contracts.ViewModels
 {
     public class PostViewModel
     {
