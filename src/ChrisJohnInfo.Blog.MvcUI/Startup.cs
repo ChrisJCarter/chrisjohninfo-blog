@@ -66,6 +66,11 @@ namespace ChrisJohnInfo.Blog.MvcUI
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute(
+                    name: "admin", 
+                    areaName: "admin", 
+                    pattern: "admin/{controller=posts}/{action=index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
