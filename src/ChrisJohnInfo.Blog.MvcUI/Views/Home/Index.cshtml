@@ -1,8 +1,13 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<ChrisJohnInfo.Blog.MvcUI.Models.PostViewModel>
+@foreach (var post in Model.OrderByDescending(p => p.DatePublished))
+{
+    <section class="post">
+        <header class="post-header">
+            <h2 class="post-title">@post.Title</h2>
+            <p class="post-meta">By <b>@post.AuthorName</b> on <b>@($"{post.DatePublished:d}")</b></p>
+        </header>
+        <div class="post-description">
+            @Html.Raw(post.Content)
+        </div>
+    </section>
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>

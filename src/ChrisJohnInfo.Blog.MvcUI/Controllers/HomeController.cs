@@ -1,32 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
+using ChrisJohnInfo.Blog.MvcUI.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using ChrisJohnInfo.Blog.MvcUI.Models;
+using ChrisJohnInfo.Blog.Contracts.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace ChrisJohnInfo.Blog.MvcUI.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IBlogService _service;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IBlogService service, IConfiguration configuration)
         {
             _logger = logger;
+            _service = service;
+            _configuration = configuration;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var posts = (await _service.GetPosts()).Select(p => new PostViewModel
+            {
+                AuthorName = "TODO!",
+                PostId = p.PostId,
+                DatePublished = p.DatePublished,
+                Title = p.Title,
+                Content = p.Content
+            });
+            return View(posts);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

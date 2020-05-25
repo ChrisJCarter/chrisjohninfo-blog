@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ChrisJohnInfo.Blog.Contracts.Models.Author>
+
+<h1>Authors Editor</h1>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>NickName</td>
+        <td><a class="btn btn-primary btn-sm" asp-area="admin" asp-controller="authors" asp-action="create">New</a></td>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var author in Model)
+    {
+        <tr>
+            <td>@author.AuthorId</td>
+            <td>@author.FirstName</td>
+            <td>@author.LastName</td>
+            <td>@author.NickName</td>
+            <td>
+                <a class="btn btn-primary btn-sm mr-sm-2" asp-action="Edit" asp-route-id="@author.AuthorId">Edit</a>
+                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@author.AuthorId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

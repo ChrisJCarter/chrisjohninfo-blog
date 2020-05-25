@@ -1,14 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using ChrisJohnInfo.Blog.Contracts.Interfaces;
+using ChrisJohnInfo.Blog.Core.Services;
 using ChrisJohnInfo.Blog.MvcUI.Data;
+using ChrisJohnInfo.Blog.Repositories.EntityFramework;
+using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +26,14 @@ namespace ChrisJohnInfo.Blog.MvcUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
+            services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IAdminService, AdminService>();
+            services.AddDbContext<ChrisJohnInfoBlogContext>(options =>
+                options.UseSqlServer(Configuration["sql-ChrisJohnInfoBlog-001"]));
+            services.AddAutoMapper(typeof(AdminRepository));
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration["sql-ChrisJohnInfoBlog-001"]));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -59,6 +66,11 @@ namespace ChrisJohnInfo.Blog.MvcUI
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute(
+                    name: "admin", 
+                    areaName: "admin", 
+                    pattern: "admin/{controller=posts}/{action=index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
