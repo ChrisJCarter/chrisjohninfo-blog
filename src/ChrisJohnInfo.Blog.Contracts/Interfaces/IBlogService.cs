@@ -6,6 +6,6 @@ namespace ChrisJohnInfo.Blog.Contracts.Interfaces
 {
     public interface IBlogService
     {
-        Task<IEnumerable<PostViewModel>> GetPosts();
+        Task<IEnumerable<Post>> GetPosts();
     }
 }

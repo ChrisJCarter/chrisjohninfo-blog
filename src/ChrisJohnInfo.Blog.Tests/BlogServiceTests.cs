@@ -18,7 +18,7 @@ namespace ChrisJohnInfo.Blog.Tests
             var blogRepository = new Mock<IBlogRepository>(MockBehavior.Strict);
             blogRepository
                 .Setup(s => s.GetPosts(false))
-                .ReturnsAsync(new List<PostViewModel>{new PostViewModel{Title = "Hello World"}});
+                .ReturnsAsync(new List<Post>{new Post{Title = "Hello World"}});
 
             var service = new BlogService(blogRepository.Object);
 
