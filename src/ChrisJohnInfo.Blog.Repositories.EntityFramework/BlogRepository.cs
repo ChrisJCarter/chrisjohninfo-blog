@@ -1,11 +1,11 @@
 ﻿using ChrisJohnInfo.Blog.Contracts.Interfaces;
-using ChrisJohnInfo.Blog.Contracts.Models;
+using ChrisJohnInfo.Blog.Contracts.ViewModels;
 using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ChrisJohnInfo.Blog.Contracts.ViewModels;
 
 namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
 {
@@ -38,6 +38,24 @@ namespace ChrisJohnInfo.Blog.Repositories.EntityFramework
                               DatePublished = p.DatePublished,
                               AuthorName = p.Author.NickName ?? $"{p.Author.FirstName} {p.Author.LastName}"
                           }).ToListAsync();
+        }
+
+        public async Task<PostViewModel> GetPost(Guid postId)
+        {
+            var entity = await _context.Posts.Include(p => p.Author).FirstOrDefaultAsync(p => p.PostId == postId);
+            if (entity == null)
+            {
+                return null;
+            }
+
+            return new PostViewModel
+            {
+                PostId = entity.PostId,
+                Title = entity.Title,
+                Content = entity.Content,
+                DatePublished = entity.DatePublished,
+                AuthorName = entity.Author.NickName ?? $"{entity.Author.FirstName} {entity.Author.LastName}"
+            };
         }
     }
 }

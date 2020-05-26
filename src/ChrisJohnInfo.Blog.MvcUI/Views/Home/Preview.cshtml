@@ -1,0 +1,17 @@
+﻿@model ChrisJohnInfo.Blog.Contracts.ViewModels.PostViewModel
+@if (Model == null)
+{
+    <p>I couldn't find that post, you get the right guid?</p>
+}
+else
+{
+    <section class="post">
+        <header class="post-header">
+            <h2 class="post-title">@Model.Title</h2>
+            <p class="post-meta">By <b>@Model.AuthorName</b> on <b>@($"{Model.DatePublished:d}")</b></p>
+        </header>
+        <div class="post-description">
+            @Html.Raw(Model.Content)
+        </div>
+    </section>   
+}

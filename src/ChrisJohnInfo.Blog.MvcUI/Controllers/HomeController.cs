@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using ChrisJohnInfo.Blog.Contracts.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 
 namespace ChrisJohnInfo.Blog.MvcUI.Controllers
@@ -30,7 +31,12 @@ namespace ChrisJohnInfo.Blog.MvcUI.Controllers
             return View(posts);
         }
 
-
+        [Authorize]
+        public async Task<IActionResult> Preview(Guid id)
+        {
+            var post = await _service.GetPost(id);
+            return View(post);
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
