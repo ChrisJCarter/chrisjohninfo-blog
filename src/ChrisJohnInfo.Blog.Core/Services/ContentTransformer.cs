@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ChrisJohnInfo.Blog.Contracts.Interfaces;
+﻿using ChrisJohnInfo.Blog.Contracts.Interfaces;
+using Markdig;
 
 namespace ChrisJohnInfo.Blog.Core.Services
 {
@@ -9,7 +7,9 @@ namespace ChrisJohnInfo.Blog.Core.Services
     {
         public string Transform(string content)
         {
-            throw new NotImplementedException();
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+            var result = Markdown.ToHtml(content, pipeline);
+            return result;
         }
     }
 }

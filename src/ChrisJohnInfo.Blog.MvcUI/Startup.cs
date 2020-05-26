@@ -31,6 +31,7 @@ namespace ChrisJohnInfo.Blog.MvcUI
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IContentTransformer, ContentTransformer>();
             services.AddDbContext<ChrisJohnInfoBlogContext>(options =>
                 options.UseSqlServer(Configuration["sql-ChrisJohnInfoBlog-001"]));
             services.AddAutoMapper(typeof(AdminRepository));
