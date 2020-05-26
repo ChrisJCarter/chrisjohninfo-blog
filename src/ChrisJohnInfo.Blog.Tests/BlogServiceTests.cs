@@ -20,8 +20,8 @@ namespace ChrisJohnInfo.Blog.Tests
             blogRepository
                 .Setup(s => s.GetPosts(false))
                 .ReturnsAsync(new List<PostViewModel>{new PostViewModel{Title = "Hello World"}});
-
-            var service = new BlogService(blogRepository.Object);
+            var contentTransformer = new Mock<IContentTransformer>(MockBehavior.Loose);
+            var service = new BlogService(blogRepository.Object, contentTransformer.Object);
 
             var posts = await service.GetPosts();
 
