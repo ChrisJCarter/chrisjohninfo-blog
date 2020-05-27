@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ChrisJohnInfo.Blog.Contracts.Interfaces;
+﻿using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using ChrisJohnInfo.Blog.Contracts.Models;
 using ChrisJohnInfo.Blog.MvcUI.Areas.Admin.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ChrisJohnInfo.Blog.MvcUI.Areas.Admin.Controllers
 {
@@ -51,6 +49,10 @@ namespace ChrisJohnInfo.Blog.MvcUI.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(Post post)
         {
             await _service.UpdatePostAsync(post);
+            if (string.Equals(Request.Form["updateAction"], "updateOnly", StringComparison.OrdinalIgnoreCase))
+            {
+                return RedirectToAction(nameof(Edit));
+            }
             return RedirectToAction(nameof(Index));
         }
 
