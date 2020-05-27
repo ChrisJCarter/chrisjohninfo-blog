@@ -5,11 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ColorCode.Core" Version="2.0.6" />
+    <PackageReference Include="ColorCode.HTML" Version="2.0.6" />
     <PackageReference Include="Markdig" Version="0.20.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ChrisJohnInfo.Blog.Contracts\ChrisJohnInfo.Blog.Contracts.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Reference Include="Markdig.SyntaxHighlighting.dll">
+      <HintPath>..\..\lib\netstandard2.0\Markdig.SyntaxHighlighting.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
