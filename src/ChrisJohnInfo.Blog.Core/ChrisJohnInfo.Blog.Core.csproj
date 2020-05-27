@@ -1,12 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ColorCode.Core" Version="2.0.6" />
-    <PackageReference Include="ColorCode.HTML" Version="2.0.6" />
+    <PackageReference Include="ColorCode.Netstandard" Version="1.0.4.3" />
     <PackageReference Include="Markdig" Version="0.20.0" />
   </ItemGroup>
 
