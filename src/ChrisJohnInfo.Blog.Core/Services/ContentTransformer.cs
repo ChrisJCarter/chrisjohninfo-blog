@@ -1,5 +1,6 @@
 ﻿using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using Markdig;
+using Markdig.SyntaxHighlighting;
 
 namespace ChrisJohnInfo.Blog.Core.Services
 {
@@ -7,7 +8,10 @@ namespace ChrisJohnInfo.Blog.Core.Services
     {
         public string Transform(string content)
         {
-            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+            var pipeline = new MarkdownPipelineBuilder()
+                .UseAdvancedExtensions()
+                .UseSyntaxHighlighting()
+                .Build();
             var result = Markdown.ToHtml(content, pipeline);
             return result;
         }
