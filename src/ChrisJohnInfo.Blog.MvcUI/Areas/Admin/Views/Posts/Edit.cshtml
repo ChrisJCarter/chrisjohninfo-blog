@@ -40,6 +40,7 @@
             <a asp-action="Index" class="btn btn-light">Cancel</a>
             <button value="updateOnly" name="updateAction" class="btn btn-primary">@(Model.Post.PostId == Guid.Empty ? "Create" : "Update")</button>
             <button value="updateAndExit" name="updateAction" class="btn btn-primary">@(Model.Post.PostId == Guid.Empty ? "Create" : "Update & Exit")</button>
+            <a class="btn btn-light" target="_blank" asp-area="" asp-controller="Home" asp-action="Preview" asp-route-id="@Model.Post.PostId">Preview</a>
         </div>
     </div>
 }
