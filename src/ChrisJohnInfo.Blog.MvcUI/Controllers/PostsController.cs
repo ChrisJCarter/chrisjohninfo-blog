@@ -14,10 +14,12 @@ namespace ChrisJohnInfo.Blog.MvcUI.Controllers
     public class PostsController : Controller
     {
         private readonly IBlogService _service;
-        
-        public PostsController(IBlogService service)
+        private readonly IStaticResourceHandler _staticResourceHandler;
+
+        public PostsController(IBlogService service, IStaticResourceHandler staticResourceHandler)
         {
             _service = service;
+            _staticResourceHandler = staticResourceHandler;
         }
 
         public async Task<IActionResult> Index()
@@ -34,21 +36,13 @@ namespace ChrisJohnInfo.Blog.MvcUI.Controllers
         }
 
         [HttpGet("posts/{postId}/static/{resource}")]
-        public IActionResult Static(Guid postId, string resource)
+        public async Task<IActionResult> Static(Guid postId, string resource)
         {
-            var localResourcePath = @$"D:\uploads\{postId}\{resource}";
-            var content = System.IO.File.ReadAllBytes(localResourcePath);
-            return File(content, GetMimeType(resource));
+            var (content, mimeType) = await _staticResourceHandler.GetAsync(postId, resource);
+
+            return File(content, mimeType);
         }
-        private static string GetMimeType(string fileName)
-        {
-            var provider = new FileExtensionContentTypeProvider();
-            if (!provider.TryGetContentType(fileName, out var contentType))
-            {
-                contentType = "application/octet-stream";
-            }
-            return contentType;
-        }
+        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
