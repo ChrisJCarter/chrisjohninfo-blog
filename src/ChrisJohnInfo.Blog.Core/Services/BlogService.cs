@@ -20,15 +20,22 @@ namespace ChrisJohnInfo.Blog.Core.Services
 
         public async Task<IEnumerable<PostViewModel>> GetPosts()
         {
-            return (await _blogRepository.GetPosts(publishedOnly: true))
-                .Select(x => new PostViewModel
-                {
-                    AuthorName = x.AuthorName,
-                    Content = _contentTransformer.Transform(x.Content),
-                    Title = x.Title,
-                    DatePublished = x.DatePublished,
-                    PostId = x.PostId
-                });
+            var publishedPosts = await _blogRepository.GetPosts(publishedOnly: true);
+            var models = publishedPosts.Select(x => new PostViewModel
+            {
+                PostId = x.PostId,
+                Content = x.Content,
+                Title = x.Title,
+                AuthorName = x.AuthorName,
+                DatePublished = x.DatePublished
+            }).ToList();
+
+            foreach (var model in models)
+            {
+                model.Content = await _contentTransformer.Transform(model.PostId, model.Content);
+            }
+
+            return models;
         }
 
         public async Task<PostViewModel> GetPost(Guid postId)
@@ -37,7 +44,7 @@ namespace ChrisJohnInfo.Blog.Core.Services
             return new PostViewModel
             {
                 AuthorName = x.AuthorName,
-                Content = _contentTransformer.Transform(x.Content),
+                Content = await _contentTransformer.Transform(x.PostId, x.Content),
                 Title = x.Title,
                 DatePublished = x.DatePublished,
                 PostId = x.PostId

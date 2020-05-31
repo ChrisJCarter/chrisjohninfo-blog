@@ -1,7 +1,10 @@
-﻿namespace ChrisJohnInfo.Blog.Contracts.Interfaces
+﻿using System;
+using System.Threading.Tasks;
+
+namespace ChrisJohnInfo.Blog.Contracts.Interfaces
 {
     public interface IContentTransformer
     {
-        string Transform(string content);
+        Task<string> Transform(Guid postId, string content);
     }
 }
