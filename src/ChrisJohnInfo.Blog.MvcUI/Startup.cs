@@ -3,6 +3,7 @@ using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using ChrisJohnInfo.Blog.Core;
 using ChrisJohnInfo.Blog.Core.Handlers;
 using ChrisJohnInfo.Blog.Core.Services;
+using ChrisJohnInfo.Blog.Core.Transformers;
 using ChrisJohnInfo.Blog.MvcUI.Data;
 using ChrisJohnInfo.Blog.Repositories.EntityFramework;
 using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
@@ -36,8 +37,8 @@ namespace ChrisJohnInfo.Blog.MvcUI
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IAdminService, AdminService>();
-            services.AddScoped<IContentTransformer, ContentTransformer>();
-
+            services.AddSingleton<MarkdownTransformer>();
+            services.AddSingleton<RazorTransformer>();
             if (CurrentEnvironment.IsDevelopment())
             {
                 services.AddSingleton<IStaticResourceHandler>(new LocalStaticResourceHandler(Configuration["storage-connection-string"]));

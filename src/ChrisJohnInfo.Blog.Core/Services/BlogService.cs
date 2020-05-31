@@ -4,31 +4,31 @@ using ChrisJohnInfo.Blog.Contracts.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChrisJohnInfo.Blog.Core.Transformers;
 
 namespace ChrisJohnInfo.Blog.Core.Services
 {
     public class BlogService : IBlogService
     {
         private readonly IBlogRepository _blogRepository;
-        private readonly IContentTransformer _contentTransformer;
-
-        public BlogService(IBlogRepository blogRepository, IContentTransformer contentTransformer)
+        private readonly IContentTransformer _markdownTransformer;
+        private readonly IContentTransformer _razorTransformer;
+        public BlogService(IBlogRepository blogRepository, MarkdownTransformer markdownTransformer, RazorTransformer razorTransformer)
         {
             _blogRepository = blogRepository;
-            _contentTransformer = contentTransformer;
+            _markdownTransformer = markdownTransformer;
+            _razorTransformer = razorTransformer;
         }
 
         public async Task<IEnumerable<PostViewModel>> GetPosts()
         {
-            return (await _blogRepository.GetPosts(publishedOnly: true))
-                .Select(x => new PostViewModel
-                {
-                    AuthorName = x.AuthorName,
-                    Content = _contentTransformer.Transform(x.Content),
-                    Title = x.Title,
-                    DatePublished = x.DatePublished,
-                    PostId = x.PostId
-                });
+            var posts = (await _blogRepository.GetPosts(publishedOnly: true)).ToList();
+            foreach (var post in posts)
+            {
+                post.Content = await _razorTransformer.TransformAsync(post.PostId, post.Content);
+                post.Content = await _markdownTransformer.TransformAsync(post.PostId, post.Content);
+            }
+            return posts;
         }
 
         public async Task<PostViewModel> GetPost(Guid postId)
@@ -37,7 +37,7 @@ namespace ChrisJohnInfo.Blog.Core.Services
             return new PostViewModel
             {
                 AuthorName = x.AuthorName,
-                Content = _contentTransformer.Transform(x.Content),
+                Content = await _markdownTransformer.TransformAsync(x.PostId, x.Content),
                 Title = x.Title,
                 DatePublished = x.DatePublished,
                 PostId = x.PostId

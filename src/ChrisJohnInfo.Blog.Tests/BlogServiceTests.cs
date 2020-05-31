@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChrisJohnInfo.Blog.Contracts.ViewModels;
+using ChrisJohnInfo.Blog.Core.Transformers;
 
 namespace ChrisJohnInfo.Blog.Tests
 {
@@ -20,8 +21,7 @@ namespace ChrisJohnInfo.Blog.Tests
             blogRepository
                 .Setup(s => s.GetPosts(false))
                 .ReturnsAsync(new List<PostViewModel>{new PostViewModel{Title = "Hello World"}});
-            var contentTransformer = new Mock<IContentTransformer>(MockBehavior.Loose);
-            var service = new BlogService(blogRepository.Object, contentTransformer.Object);
+            var service = new BlogService(blogRepository.Object, new MarkdownTransformer(), new RazorTransformer());
 
             var posts = await service.GetPosts();
 
