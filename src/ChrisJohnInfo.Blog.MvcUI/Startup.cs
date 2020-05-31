@@ -1,5 +1,7 @@
 using AutoMapper;
 using ChrisJohnInfo.Blog.Contracts.Interfaces;
+using ChrisJohnInfo.Blog.Core;
+using ChrisJohnInfo.Blog.Core.Handlers;
 using ChrisJohnInfo.Blog.Core.Services;
 using ChrisJohnInfo.Blog.MvcUI.Data;
 using ChrisJohnInfo.Blog.Repositories.EntityFramework;
@@ -16,12 +18,15 @@ namespace ChrisJohnInfo.Blog.MvcUI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment currentEnvironment)
         {
             Configuration = configuration;
+            CurrentEnvironment = currentEnvironment;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IWebHostEnvironment CurrentEnvironment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -32,6 +37,15 @@ namespace ChrisJohnInfo.Blog.MvcUI
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IContentTransformer, ContentTransformer>();
+
+            if (CurrentEnvironment.IsDevelopment())
+            {
+                services.AddSingleton<IStaticResourceHandler>(new LocalStaticResourceHandler(Configuration["storage-connection-string"]));
+            }
+            else
+            {
+                services.AddSingleton<IStaticResourceHandler>(new RemoteStaticResourceHandler(Configuration["storage-connection-string"]));
+            }
             services.AddDbContext<ChrisJohnInfoBlogContext>(options =>
                 options.UseSqlServer(Configuration["sql-ChrisJohnInfoBlog-001"]));
             services.AddAutoMapper(typeof(AdminRepository));
