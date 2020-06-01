@@ -33,15 +33,10 @@ namespace ChrisJohnInfo.Blog.Core.Services
 
         public async Task<PostViewModel> GetPost(Guid postId)
         {
-            var x = await _blogRepository.GetPost(postId);
-            return new PostViewModel
-            {
-                AuthorName = x.AuthorName,
-                Content = await _markdownTransformer.TransformAsync(x.PostId, x.Content),
-                Title = x.Title,
-                DatePublished = x.DatePublished,
-                PostId = x.PostId
-            };
+            var post = await _blogRepository.GetPost(postId);
+            post.Content = await _razorTransformer.TransformAsync(postId, post.Content);
+            post.Content = await _markdownTransformer.TransformAsync(postId, post.Content);
+            return post;
         }
     }
 }

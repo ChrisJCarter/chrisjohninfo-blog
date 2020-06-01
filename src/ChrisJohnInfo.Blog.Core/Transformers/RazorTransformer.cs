@@ -7,14 +7,19 @@ namespace ChrisJohnInfo.Blog.Core.Transformers
 {
     public class RazorTransformer : IContentTransformer
     {
-        public async Task<string> TransformAsync(Guid postId, string content)
+        private readonly RazorLightEngine _razor;
+
+        public RazorTransformer()
         {
-            var razor = new RazorLightEngineBuilder()
+            _razor = new RazorLightEngineBuilder()
                 .UseEmbeddedResourcesProject(typeof(RazorTransformer))
                 .Build();
+        }
 
+        public async Task<string> TransformAsync(Guid postId, string content)
+        {
             var razorTemplateHelper = new RazorTemplateHelper {Host = "", PostId = postId};
-            return await razor.CompileRenderStringAsync(postId.ToString(), content, razorTemplateHelper);
+            return await _razor.CompileRenderStringAsync(postId.ToString(), content, razorTemplateHelper);
         }
     }
 }
