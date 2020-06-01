@@ -6,7 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.4.2" />
-    <PackageReference Include="ColorCode.Netstandard" Version="1.0.4.3" />
+    <PackageReference Include="ColorCode.Core" Version="2.0.6" />
+    <PackageReference Include="ColorCode.HTML" Version="2.0.6" />
     <PackageReference Include="Markdig" Version="0.20.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="RazorLight" Version="2.0.0-beta7" />
@@ -17,7 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Markdig.SyntaxHighlighting.dll">
-      <HintPath>..\..\lib\netstandard2.0\Markdig.SyntaxHighlighting.dll</HintPath>
+      <HintPath>..\..\lib\netstandard2.1\Markdig.SyntaxHighlighting.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
