@@ -5,9 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using ChrisJohnInfo.Blog.MvcUI.Areas.Admin.ViewModels;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ChrisJohnInfo.Blog.MvcUI.Controllers
 {
@@ -15,16 +19,22 @@ namespace ChrisJohnInfo.Blog.MvcUI.Controllers
     {
         private readonly IBlogService _service;
         private readonly IStaticResourceHandler _staticResourceHandler;
+        private readonly IMemoryCache _cache;
 
-        public PostsController(IBlogService service, IStaticResourceHandler staticResourceHandler)
+        public PostsController(IBlogService service, IStaticResourceHandler staticResourceHandler, IMemoryCache cache)
         {
             _service = service;
             _staticResourceHandler = staticResourceHandler;
+            _cache = cache;
         }
 
         public async Task<IActionResult> Index()
         {
-            var posts = await _service.GetPosts();
+            if (!_cache.TryGetValue<IEnumerable<Contracts.ViewModels.PostViewModel>>("posts", out var posts))
+            {
+                posts = await _service.GetPosts();
+                _cache.Set("posts", posts, TimeSpan.FromMinutes(5));
+            }
             return View(posts);
         }
 

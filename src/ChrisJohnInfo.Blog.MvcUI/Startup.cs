@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -40,6 +41,7 @@ namespace ChrisJohnInfo.Blog.MvcUI
             services.AddScoped<IAdminService, AdminService>();
             services.AddSingleton<MarkdownTransformer>();
             services.AddSingleton<RazorTransformer>();
+            services.AddSingleton<IMemoryCache, MemoryCache>();
             if (CurrentEnvironment.IsDevelopment())
             {
                 services.AddSingleton<IStaticResourceHandler>(new LocalStaticResourceHandler(Configuration["storage-connection-string"]));
