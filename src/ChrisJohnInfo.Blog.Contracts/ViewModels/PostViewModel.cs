@@ -9,5 +9,6 @@ namespace ChrisJohnInfo.Blog.Contracts.ViewModels
         public string Content { get; set; }
         public DateTime? DatePublished { get; set; }
         public string AuthorName { get; set; }
+        public string RenderedHtml { get; set; }
     }
 }

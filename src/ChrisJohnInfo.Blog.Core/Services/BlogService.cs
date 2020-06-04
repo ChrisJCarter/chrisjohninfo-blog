@@ -13,11 +13,14 @@ namespace ChrisJohnInfo.Blog.Core.Services
         private readonly IBlogRepository _blogRepository;
         private readonly IContentTransformer _markdownTransformer;
         private readonly IContentTransformer _razorTransformer;
-        public BlogService(IBlogRepository blogRepository, MarkdownTransformer markdownTransformer, RazorTransformer razorTransformer)
+        private readonly IAdminRepository _adminRepository;
+
+        public BlogService(IBlogRepository blogRepository, MarkdownTransformer markdownTransformer, RazorTransformer razorTransformer, IAdminRepository adminRepository)
         {
             _blogRepository = blogRepository;
             _markdownTransformer = markdownTransformer;
             _razorTransformer = razorTransformer;
+            _adminRepository = adminRepository;
         }
 
         public async Task<IEnumerable<PostViewModel>> GetPosts()
@@ -25,17 +28,31 @@ namespace ChrisJohnInfo.Blog.Core.Services
             var posts = (await _blogRepository.GetPosts(publishedOnly: true)).ToList();
             foreach (var post in posts)
             {
-                post.Content = await _razorTransformer.TransformAsync(post.PostId, post.Content);
-                post.Content = await _markdownTransformer.TransformAsync(post.PostId, post.Content);
+                post.Content = await GetContent(post);
             }
             return posts;
+        }
+
+        private async Task<string> GetContent(PostViewModel postView)
+        {
+            if (!String.IsNullOrEmpty(postView.RenderedHtml))
+            {
+                return postView.RenderedHtml;
+            }
+
+            var post = await _adminRepository.GetPostAsync(postView.PostId);
+            var content = await _razorTransformer.TransformAsync(post.PostId, post.Content);
+            content = await _markdownTransformer.TransformAsync(post.PostId, content);
+            post.RenderedHtml = content;
+            await _adminRepository.UpdatePostAsync(post);
+            return content;
+
         }
 
         public async Task<PostViewModel> GetPost(Guid postId)
         {
             var post = await _blogRepository.GetPost(postId);
-            post.Content = await _razorTransformer.TransformAsync(postId, post.Content);
-            post.Content = await _markdownTransformer.TransformAsync(postId, post.Content);
+            post.Content = await GetContent(post);
             return post;
         }
     }

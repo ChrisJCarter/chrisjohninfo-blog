@@ -44,6 +44,7 @@ SELECT
     p.[Title],
     p.[Content],
     p.[DatePublished],
+    p.[RenderedHtml],
     'AuthorName' = 
         CASE  
             WHEN a.[NickName] IS NULL THEN a.[FirstName] + ' ' + a.[LastName]
