@@ -1,3 +1,4 @@
+using System.Data;
 using AutoMapper;
 using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using ChrisJohnInfo.Blog.Core;
@@ -5,11 +6,11 @@ using ChrisJohnInfo.Blog.Core.Handlers;
 using ChrisJohnInfo.Blog.Core.Services;
 using ChrisJohnInfo.Blog.Core.Transformers;
 using ChrisJohnInfo.Blog.MvcUI.Data;
-using ChrisJohnInfo.Blog.Repositories.EntityFramework;
-using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
+using ChrisJohnInfo.Blog.Repositories.Dapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,8 +48,9 @@ namespace ChrisJohnInfo.Blog.MvcUI
             {
                 services.AddSingleton<IStaticResourceHandler>(new RemoteStaticResourceHandler(Configuration["storage-connection-string"]));
             }
-            services.AddDbContext<ChrisJohnInfoBlogContext>(options =>
-                options.UseSqlServer(Configuration["sql-ChrisJohnInfoBlog-001"]));
+            //services.AddDbContext<ChrisJohnInfoBlogContext>(options =>
+            //    options.UseSqlServer(Configuration["sql-ChrisJohnInfoBlog-001"]));
+            services.AddScoped<IDbConnection>(provider => new SqlConnection(Configuration["sql-ChrisJohnInfoBlog-001"]));
             services.AddAutoMapper(typeof(AdminRepository));
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration["sql-ChrisJohnInfoBlog-001"]));

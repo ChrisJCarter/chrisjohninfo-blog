@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChrisJohnInfo.Blog.Core", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChrisJohnInfo.Blog.Tests", "src\ChrisJohnInfo.Blog.Tests\ChrisJohnInfo.Blog.Tests.csproj", "{EF2AE98E-7450-45C1-B3FC-58506B87947F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.MvcUI", "src\ChrisJohnInfo.Blog.MvcUI\ChrisJohnInfo.Blog.MvcUI.csproj", "{F4B63B0F-429A-4094-8994-0D26F15FCD10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChrisJohnInfo.Blog.MvcUI", "src\ChrisJohnInfo.Blog.MvcUI\ChrisJohnInfo.Blog.MvcUI.csproj", "{F4B63B0F-429A-4094-8994-0D26F15FCD10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChrisJohnInfo.Blog.Repositories.Dapper", "ChrisJohnInfo.Blog.Repositories.Dapper\ChrisJohnInfo.Blog.Repositories.Dapper.csproj", "{B7E8E005-72E8-4971-A9DE-5008F7E93E08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +99,18 @@ Global
 		{F4B63B0F-429A-4094-8994-0D26F15FCD10}.Release|x64.Build.0 = Release|Any CPU
 		{F4B63B0F-429A-4094-8994-0D26F15FCD10}.Release|x86.ActiveCfg = Release|Any CPU
 		{F4B63B0F-429A-4094-8994-0D26F15FCD10}.Release|x86.Build.0 = Release|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Debug|x64.Build.0 = Debug|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Debug|x86.Build.0 = Debug|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Release|x64.ActiveCfg = Release|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Release|x64.Build.0 = Release|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Release|x86.ActiveCfg = Release|Any CPU
+		{B7E8E005-72E8-4971-A9DE-5008F7E93E08}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
