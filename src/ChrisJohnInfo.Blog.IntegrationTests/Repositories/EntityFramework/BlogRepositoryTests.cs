@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using ChrisJohnInfo.Blog.Contracts.Interfaces;
 using ChrisJohnInfo.Blog.Repositories.EntityFramework;
 using ChrisJohnInfo.Blog.Repositories.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
@@ -10,27 +11,14 @@ using Microsoft.EntityFrameworkCore;
 namespace ChrisJohnInfo.Blog.IntegrationTests.Repositories.EntityFramework
 {
     [TestFixture]
-    public class BlogRepositoryTests
+    public class BlogRepositoryTests : BlogRepositoryBaseTests
     {
-        private readonly IConfiguration _configuration;
-        
-        public BlogRepositoryTests()
-        {
-            _configuration = new ConfigurationBuilder()
-                .AddUserSecrets("a2bf567b-768c-4818-b9e4-9ad84fd44eb1", true)
-                .Build();
-        }
-        [Test]
-        public async Task GetPosts()
+        protected override IBlogRepository CreateRepository()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ChrisJohnInfoBlogContext>()
-                .UseSqlServer(_configuration.GetConnectionString("ChrisJohnInfoBlog"));
+                .UseSqlServer(ConnectionString);
             var context = new ChrisJohnInfoBlogContext(optionsBuilder.Options);
-            var repo = new BlogRepository(context);
-            var posts = await context.Posts.ToListAsync();
-            Assert.That(posts.Count, Is.AtLeast(1));
-            var post = posts.First();
-            Assert.That(post.Title, Is.EqualTo("The Blog Project"));
+            return new BlogRepository(context);
         }
     }
 }
